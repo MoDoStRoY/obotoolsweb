@@ -31,9 +31,11 @@
 </template>
 
 <script>
-export default {
+export default
+{
   name: 'HelloWorld',
-  props: {
+  props:
+      {
     msg: String
   }
 }
