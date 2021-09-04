@@ -2,23 +2,23 @@
   <div id="mainBlock">
     <hatBar></hatBar>
     <ul id="toolBox">
-      <li><textarea>OBO Tech</textarea>
+      <li><h4>OBO Tech</h4>
       <li><button>Корректировка платежей</button>
-      <li><textarea>OBO Admin</textarea>
+      <li><h4>OBO Admin</h4>
       <li><button>Запросы по дилерам</button>
-      <li><textarea>OBO ALL</textarea>
-      <li><button>Счётчик косяков</button>
+      <li><h4>OBO ALL</h4>
+      <li><button>Счётчик косяков</button></li>
     </ul>
   </div>
 </template>
 
 <script>
-import hatBar from "@/Pages/Components/hatBar";
+import hatBar from "../Components/hatBar.vue";
 
 export default
 {
-  name: "WorkSpace",
-  components: hatBar
+  name: "workspace",
+  components: {hatBar}
 }
 
 </script>
@@ -28,8 +28,7 @@ export default
 ul
 {
   list-style-type: none;
-  margin-top: 20%;
-  margin-left: 40%;
+  padding-left: 0;
   line-height: 1%;
 }
 

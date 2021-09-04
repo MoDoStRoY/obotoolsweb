@@ -13,7 +13,7 @@ const routes =
   {path: '/WorkSpace', component: WorkSpace}
 ]
 
-const router = new VueRouter({routes: routes})
+const router = new VueRouter({routes: routes, mode: 'history'})
 
 new Vue({
   render: h => h(App),

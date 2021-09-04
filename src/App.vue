@@ -23,8 +23,9 @@ export default
     loginTest:
         function loginTest()
         {
-          window.history.length > 1 ? this.$router.go(+1) : this.$router.push('/')
-          console.log("хуйжопа")
+          //window.history.length > 1 ? this.$router.go(+1) : this.$router.push('/')
+          //this.$router.push('workSpace')
+          window.location.href = "http://192.168.0.101:8080/workSpace";
         }
   }
 }
