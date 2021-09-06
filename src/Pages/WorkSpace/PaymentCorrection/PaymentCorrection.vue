@@ -10,13 +10,13 @@
 
       <ul>
         <li><p>Источник заявки:</p>
-        <li><input type="checkbox">CRM
-        <li><input type="checkbox">WD</li>
+        <li><input type="checkbox" id="CRM">CRM
+        <li><input type="checkbox" id="WD">WD</li>
       </ul>
 
       <ul>
-        <li><input type="checkbox">Решение на первой линии
-        <li><input type="checkbox">В корректировке отказано</li>
+        <li><input type="checkbox" id="incorrectTicket">Решение на первой линии
+        <li><input type="checkbox" id="refusedCorrection">В корректировке отказано</li>
       </ul>
 
       <p>Импорт данных:</p>
@@ -31,7 +31,7 @@
         <ul id="mainInfo">
           <li><p>Основная информация по ТТ:</p><br>
           <li><p>Номер ТТ</p>
-          <li><input id="TTnumber">
+          <li><input id="TTNumber">
           <li><p>Контактный номер:</p>
           <li><input id="contact">
           <li><p>Способ ОС:</p>
@@ -62,12 +62,12 @@
           <li><input id="correctionSum"></li>
         </ul>
 
-        <button v-on:click="getResults()">Сформировать шаблоны</button>
+        <button v-on:click="getRequest">Сформировать шаблоны</button>
       </div>
 
       <div id="centerBlockResults">
         <p id="decisionTitle">Решение:</p>
-        <textarea id="decisionText" v-model="decision"></textarea>
+        <textarea id="decisionText"></textarea>
         <button id="decisionCopyBtn">Копировать</button>
         <p id="kassaCommentTitle">Комментарий для кассы:</p>
         <textarea id="kassaCommentText"></textarea>
@@ -89,28 +89,26 @@ document.title = "OBO Tools"
 export default {
   name: "PaymentCorrection",
   components: {hatBar},
-  props:
-      {
-        decision: String,
-        kassaComment: String,
-        reparationComment: String
-      },
   methods: {
     goBack: function goBack()
     {
       window.location.href = "http://94.181.44.86:25566/workSpace"
     },
-    getResults: async function sendMessage()
+    getRequest: async function getRequest()
     {
-      let dataList = ["1488", "795111666572", "SMS", "79511166573", "795111666572",
-        "500", "27.08.2021", "500", "CRM", "false", "false", "true", "false"];
+      let bodyOfRequest = [document.getElementById("TTNumber").value, document.getElementById("contact").value, "SMS",
+        document.getElementById("correctNumber").value, document.getElementById("incorrectNumber").value,
+        document.getElementById("paymentSum").value, document.getElementById("paymentDate").value,
+        document.getElementById("correctionSum").value, "CRM", document.getElementById("incorrectTicket").value.toString(),
+        document.getElementById("refusedCorrection").value.toString(), document.getElementById("fullCorrectionCB").value.toString(),
+        document.getElementById("reparationCB").value.toString()]
 
       let response = await fetch('http://94.181.44.86:25565/api/PaymentCorrection/getResults',
           {
             method: 'POST',
             headers: {'Accept': 'text/pl',
               'Content-Type': 'application/json'},
-            body: JSON.stringify({"dataList": dataList})
+            body: JSON.stringify({"dataList": bodyOfRequest})
           });
       let result = JSON.parse(await response.text());
 
