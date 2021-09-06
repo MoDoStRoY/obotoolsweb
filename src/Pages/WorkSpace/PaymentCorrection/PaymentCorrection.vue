@@ -10,8 +10,8 @@
 
       <ul>
         <li><p>Источник заявки:</p>
-        <li><input type="checkbox" id="CRM">CRM
-        <li><input type="checkbox" id="WD">WD</li>
+        <li><input type="checkbox" v-on:change="chosenCRM()" id="CRM">CRM
+        <li><input type="checkbox" v-on:change="chosenWD()" id="WD">WD</li>
       </ul>
 
       <ul>
@@ -35,11 +35,11 @@
           <li><p>Контактный номер:</p>
           <li><input id="contact">
           <li><p>Способ ОС:</p>
-          <li><input type="checkbox">SMS
-          <li><input type="checkbox">Звонок
-          <li><input type="checkbox">e-mail
-          <li><input type="checkbox">Соц.сеть
-          <li><input type="checkbox">XXX</li>
+          <li><input type="checkbox" v-on:change="SMSBC()" id="SMS">SMS
+          <li><input type="checkbox" v-on:change="CallBC()" id="Call">Звонок
+          <li><input type="checkbox" v-on:change="emailBC()" id="e-mail">e-mail
+          <li><input type="checkbox" v-on:change="smmBC()" id="smm">Соц.сеть
+          <li><input type="checkbox" v-on:change="XXXBC()" id="XXX">XXX</li>
         </ul>
 
         <ul id="paymentInfo">
@@ -62,7 +62,7 @@
           <li><input id="correctionSum"></li>
         </ul>
 
-        <button v-on:click="getRequest">Сформировать шаблоны</button>
+        <button v-on:click="getRequest()">Сформировать шаблоны</button>
       </div>
 
       <div id="centerBlockResults">
@@ -83,7 +83,8 @@
 
 <script>
 import hatBar from "@/Pages/Components/hatBar";
-import {sendRequest} from "../../../Scripts/PaymentCorrection/PaymentCorrection.ts";
+import {sendRequest} from "@/Scripts/PaymentCorrection/PaymentCorrection.ts";
+import {changeBC, changeSource} from "@/Scripts/PaymentCorrection/FrontLogic.ts";
 
 document.title = "OBO Tools"
 
@@ -98,7 +99,14 @@ export default {
     getRequest: async function getRequest()
     {
       await sendRequest(document);
-    }
+    },
+    chosenCRM: function chosenCRM() {changeSource(document, "CRM")},
+    chosenWD: function chosenWD() {changeSource(document, "WD")},
+    SMSBC: function SMSBC() {changeBC(document, "SMS")},
+    CallBC: function CallBC() {changeBC(document, "Call")},
+    emailBC: function emailBC() {changeBC(document, "e-mail")},
+    smmBC: function smmBC() {changeBC(document, "smm")},
+    XXXBC: function XXXBC() {changeBC(document, "XXX")}
   }
 }
 </script>

@@ -1,11 +1,15 @@
-export async function sendRequest(document)
+let document;
+
+//import {getBCVariant} from "./FrontLogic";
+
+export async function sendRequest(documentIN)
 {
-    let bodyOfRequest = [document.getElementById("TTNumber").value, document.getElementById("contact").value, "SMS",
-        document.getElementById("correctNumber").value, document.getElementById("incorrectNumber").value,
-        document.getElementById("paymentSum").value, document.getElementById("paymentDate").value,
-        document.getElementById("correctionSum").value, "CRM", document.getElementById("refusedCorrection").checked.toString(),
-        document.getElementById("incorrectTicket").checked.toString(), document.getElementById("fullCorrectionCB").checked.toString(),
-        document.getElementById("reparationCB").checked.toString()]
+    let bodyOfRequest = [documentIN.getElementById("TTNumber").value, documentIN.getElementById("contact").value, "SMS",
+        documentIN.getElementById("correctNumber").value, documentIN.getElementById("incorrectNumber").value,
+        documentIN.getElementById("paymentSum").value, documentIN.getElementById("paymentDate").value,
+        documentIN.getElementById("correctionSum").value, "CRM", documentIN.getElementById("refusedCorrection").checked.toString(),
+        documentIN.getElementById("incorrectTicket").checked.toString(), documentIN.getElementById("fullCorrectionCB").checked.toString(),
+        documentIN.getElementById("reparationCB").checked.toString()]
 
     let response = await fetch('http://94.181.44.86:25565/api/PaymentCorrection/getResults',
         {
@@ -14,8 +18,14 @@ export async function sendRequest(document)
                 'Content-Type': 'application/json'},
             body: JSON.stringify({"dataList": bodyOfRequest})
         });
-    let result = JSON.parse(await response.text());
 
+    document = documentIN;
+
+    getResult(JSON.parse(await response.text()))
+}
+
+function getResult(result)
+{
     document.getElementById("decisionText").value = result[0];
     document.getElementById("kassaCommentText").value = result[1];
     document.getElementById("reparationCommentText").value = result[2];
