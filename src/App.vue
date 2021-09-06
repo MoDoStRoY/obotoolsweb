@@ -15,6 +15,8 @@
 
 import hatBar from "./Pages/Components/hatBar.vue";
 
+document.title = "OBO Tools"
+
 export default
 {
   name: "app",
@@ -25,7 +27,7 @@ export default
         {
           //window.history.length > 1 ? this.$router.go(+1) : this.$router.push('/')
           //this.$router.push('workSpace')
-          window.location.href = "http://192.168.0.101:8080/workSpace";
+          window.location.href = "http://94.181.44.86:25566/workSpace";
         }
   }
 }
