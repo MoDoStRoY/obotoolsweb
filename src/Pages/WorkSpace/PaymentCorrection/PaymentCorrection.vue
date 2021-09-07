@@ -35,11 +35,11 @@
           <li><p>Контактный номер:</p>
           <li><input id="contact">
           <li><p>Способ ОС:</p>
-          <li><input type="checkbox" v-on:change="SMSBC()" id="SMS">SMS
-          <li><input type="checkbox" v-on:change="CallBC()" id="Call">Звонок
-          <li><input type="checkbox" v-on:change="emailBC()" id="e-mail">e-mail
-          <li><input type="checkbox" v-on:change="smmBC()" id="smm">Соц.сеть
-          <li><input type="checkbox" v-on:change="XXXBC()" id="XXX">XXX</li>
+          <li><input type="checkbox" v-on:change="changeBC(SMS)"  v-model="SMSCB" id="SMS">SMS
+          <li><input type="checkbox" v-on:change="changeBC(Call)" v-model="CallCB" id="Call">Звонок
+          <li><input type="checkbox" v-on:change="changeBC(email)" v-model="emailCB" id="e-mail">e-mail
+          <li><input type="checkbox" v-on:change="changeBC(smm)" v-model="smmCB" id="smm">Соц.сеть
+          <li><input type="checkbox" v-on:change="changeBC(XXX)" v-model="XXXCB" id="XXX">XXX</li>
         </ul>
 
         <ul id="paymentInfo">
@@ -91,22 +91,32 @@ document.title = "OBO Tools"
 export default {
   name: "PaymentCorrection",
   components: {hatBar},
+  data: function () {
+    return {
+      SMSCB: false,
+      CallCB: false,
+      emailCB: false,
+      smmCB: false,
+      XXXCB: false,
+      SMS: "SMS",
+      Call: "Call",
+      email: "email",
+      smm: "smm",
+      XXX: "XXX"
+    };
+  },
   methods: {
-    goBack: function goBack()
+    goBack: function ()
     {
       window.location.href = "http://94.181.44.86:25566/workSpace"
     },
-    getRequest: async function getRequest()
+    getRequest: async function ()
     {
       await sendRequest(document);
     },
-    chosenCRM: function chosenCRM() {changeSource(document, "CRM")},
-    chosenWD: function chosenWD() {changeSource(document, "WD")},
-    SMSBC: function SMSBC() {changeBC(document, "SMS")},
-    CallBC: function CallBC() {changeBC(document, "Call")},
-    emailBC: function emailBC() {changeBC(document, "e-mail")},
-    smmBC: function smmBC() {changeBC(document, "smm")},
-    XXXBC: function XXXBC() {changeBC(document, "XXX")}
+    chosenCRM: function () {changeSource("CRM")},
+    chosenWD: function () {changeSource( "WD")},
+    changeBC: function (currentElement) {changeBC(currentElement)},
   }
 }
 </script>

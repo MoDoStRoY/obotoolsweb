@@ -1,11 +1,7 @@
-let document;
-
 let elements;
 
-function refreshElements(documentIN)
+function refreshElements()
 {
-    document = documentIN
-
     elements = [document.getElementById("TTNumber"), document.getElementById("contact"),
         document.getElementById("SMS"), document.getElementById("Call"), document.getElementById("e-mail"),
         document.getElementById("smm"), document.getElementById("XXX"),
@@ -16,19 +12,19 @@ function refreshElements(documentIN)
         document.getElementById("fullCorrectionCB"), document.getElementById("reparationCB")]
 }
 
-export function changeSource(documentIN, currentElement)
+export function changeSource(BCVariant)
 {
-    refreshElements(documentIN)
+    refreshElements()
 
-    if (currentElement === "CRM")
+    if (BCVariant === "CRM")
         elements[13].checked = false;
     else
         elements[12].checked = false
 }
 
-export function changeBC(documentIN, currentElement)
+export function changeBC(currentElement)
 {
-    refreshElements(documentIN)
+    refreshElements()
 
     switch (currentElement)
     {
