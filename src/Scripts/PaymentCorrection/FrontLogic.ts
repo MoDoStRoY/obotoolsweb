@@ -73,3 +73,24 @@ export function getSource(vue)
         return "CRM";
     else return "WD";
 }
+
+export function highlightText(vue, textMark)
+{
+    switch (textMark)
+    {
+        case "decision":
+            document.getElementById("decisionText").select()
+            break;
+        case "kassaComment":
+            document.getElementById("kassaCommentText").select()
+            break;
+        case "reparationComment":
+            document.getElementById("reparationCommentText").select()
+            break;
+    }
+}
+
+/*export function loadDataBuffer(vue)
+{
+
+}*/

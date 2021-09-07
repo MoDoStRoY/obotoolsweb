@@ -5,8 +5,8 @@
       <button v-on:click="goBack()">Назад</button>
       <br>
 
-      <button>Сбросить кроме даты</button>
-      <button>Сбросить всё</button>
+      <button disabled>Сбросить кроме даты</button>
+      <button disabled>Сбросить всё</button>
 
       <ul>
         <li><p>Источник заявки:</p>
@@ -20,9 +20,10 @@
       </ul>
 
       <p>Импорт данных:</p>
-      <button>Загрузка из буфера обмена</button>
+      <textarea v-model="dataBuffer" id="dataBuffer"></textarea>
+      <button disabled v-on:click="loadDataBuffer()">Загрузка из буфера обмена</button>
 
-      <button id="history">История</button>
+      <button disabled id="history">История</button>
 
     </div>
 
@@ -31,9 +32,9 @@
         <ul id="mainInfo" key = key>
           <li><p>Основная информация по ТТ:</p><br>
           <li><p>Номер ТТ</p>
-          <li><input id="TTNumber">
+          <li><input v-model="TTNumber" id="TTNumber">
           <li><p>Контактный номер:</p>
-          <li><input id="contact">
+          <li><input v-model="contact" id="contact">
           <li><p>Способ ОС:</p>
           <li><input type="checkbox" v-on:change="changeBC(SMS)"  v-model="SMSCB" id="SMS">SMS
           <li><input type="checkbox" v-on:change="changeBC(Call)" v-model="CallCB" id="Call">Звонок
@@ -45,13 +46,13 @@
         <ul id="paymentInfo">
           <li><p>Информация по платежу:</p><br>
           <li><p>Ошибочный номер телефона:</p>
-          <li><input id="incorrectNumber">
+          <li><input v-model="incorrectNumber" id="incorrectNumber">
           <li><p>Корректный номер телефона:</p>
-          <li><input id="correctNumber">
+          <li><input v-model="correctNumber" id="correctNumber">
           <li><p>Сумма платежа:</p>
-          <li><input id="paymentSum">
+          <li><input v-model="paymentSum" id="paymentSum">
           <li><p>Дата платежа:</p>
-          <li><input id="paymentDate"></li>
+          <li><input v-model="paymentDate" id="paymentDate"></li>
         </ul>
 
         <ul id="correctionParams">
@@ -59,7 +60,7 @@
           <li><input type="checkbox" id="fullCorrectionCB">Корректировка в полном объёме
           <li><input type="checkbox" id="reparationCB">Или предоставляется компенсация?
           <li><br><p>Сумма корректировки (если частичная):</p>
-          <li><input id="correctionSum"></li>
+          <li><input v-model="correctionSum" id="correctionSum"></li>
         </ul>
 
         <button v-on:click="getRequest()">Сформировать шаблоны</button>
@@ -67,15 +68,15 @@
 
       <div id="centerBlockResults">
         <p id="decisionTitle">Решение:</p>
-        <textarea v-on:click="copyTest()" id="decisionText"></textarea>
-        <button id="decisionCopyBtn">Копировать</button>
+        <textarea id="decisionText"></textarea>
+        <button v-on:click="highlightText(decisionMark)" id="decisionCopyBtn">Выделить</button>
         <p id="kassaCommentTitle">Комментарий для кассы:</p>
         <textarea id="kassaCommentText"></textarea>
-        <button id="kassCommentCopyBtn">Копировать</button>
+        <button v-on:click="highlightText(kassaCommentMark)" id="kassCommentCopyBtn">Выделить</button>
         <p id="reparationCommentTitle">Комментарий для компенсации в CRM:</p>
         <textarea id="reparationCommentText"></textarea>
-        <button id="reparationCommentCopyBtn">Копировать</button>
-        <button id="copyAllBtn">Скопировать всё</button>
+        <button v-on:click="highlightText(reparationCommentMark)" id="reparationCommentCopyBtn">Выделить</button>
+        <button disabled id="copyAllBtn">Скопировать всё</button>
       </div>
     </div>
   </div>
@@ -84,7 +85,7 @@
 <script>
 import hatBar from "@/Pages/Components/hatBar";
 import {sendRequest} from "@/Scripts/PaymentCorrection/PaymentCorrection.ts";
-import {changeBC, changeSource} from "@/Scripts/PaymentCorrection/FrontLogic.ts";
+import {changeBC, changeSource, highlightText} from "@/Scripts/PaymentCorrection/FrontLogic.ts";
 
 document.title = "OBO Tools"
 
@@ -98,15 +99,35 @@ export default {
       emailCB: false,
       smmCB: false,
       XXXCB: false,
+
       SMS: "SMS",
       Call: "Call",
       email: "email",
       smm: "smm",
       XXX: "XXX",
+
       CRMCB: false,
       WDCB: false,
       CRM: "CRM",
-      WD: "WD"
+      WD: "WD",
+
+      TTNumber: "",
+      contact: "",
+      incorrectNumber: "",
+      correctNumber: "",
+      paymentSum: "",
+      paymentDate: "",
+      correctionSum: "",
+
+      decisionMark: "decision",
+      kassaCommentMark: "kassaComment",
+      reparationCommentMark: "reparationComment",
+
+      decision: "",
+      kassaComment: "",
+      reparationComment: "",
+
+      dataBuffer: ""
     };
   },
   methods: {
@@ -120,7 +141,8 @@ export default {
     },
     chosenSource: function (currentElement) {changeSource(this, currentElement)},
     changeBC: function (currentElement) {changeBC(this, currentElement)},
-    copyTest: function () { navigator.clipboard.writeText('хуйжопа') }
+    highlightText: function (textMark) {highlightText(this, textMark)},
+    loadDataBuffer: function () {  }
   }
 }
 </script>
@@ -195,6 +217,13 @@ button
 {
   width: 90%;
   height: 10%;
+  resize: none;
+}
+
+#dataBuffer
+{
+  width: 90%;
+  height: 20%;
   resize: none;
 }
 
