@@ -10,8 +10,8 @@
 
       <ul>
         <li><p>Источник заявки:</p>
-        <li><input type="checkbox" v-on:change="chosenCRM()" id="CRM">CRM
-        <li><input type="checkbox" v-on:change="chosenWD()" id="WD">WD</li>
+        <li><input type="checkbox" v-on:change="chosenSource(CRM)" v-model="CRMCB" id="CRM">CRM
+        <li><input type="checkbox" v-on:change="chosenSource(WD)" v-model="WDCB" id="WD">WD</li>
       </ul>
 
       <ul>
@@ -28,7 +28,7 @@
 
     <div id="centerBlock">
       <div id="centerBlockHeader">
-        <ul id="mainInfo">
+        <ul id="mainInfo" key = key>
           <li><p>Основная информация по ТТ:</p><br>
           <li><p>Номер ТТ</p>
           <li><input id="TTNumber">
@@ -67,7 +67,7 @@
 
       <div id="centerBlockResults">
         <p id="decisionTitle">Решение:</p>
-        <textarea id="decisionText"></textarea>
+        <textarea v-on:click="copyTest()" id="decisionText"></textarea>
         <button id="decisionCopyBtn">Копировать</button>
         <p id="kassaCommentTitle">Комментарий для кассы:</p>
         <textarea id="kassaCommentText"></textarea>
@@ -102,7 +102,11 @@ export default {
       Call: "Call",
       email: "email",
       smm: "smm",
-      XXX: "XXX"
+      XXX: "XXX",
+      CRMCB: false,
+      WDCB: false,
+      CRM: "CRM",
+      WD: "WD"
     };
   },
   methods: {
@@ -112,11 +116,11 @@ export default {
     },
     getRequest: async function ()
     {
-      await sendRequest(document);
+      await sendRequest(this);
     },
-    chosenCRM: function () {changeSource("CRM")},
-    chosenWD: function () {changeSource( "WD")},
-    changeBC: function (currentElement) {changeBC(currentElement)},
+    chosenSource: function (currentElement) {changeSource(this, currentElement)},
+    changeBC: function (currentElement) {changeBC(this, currentElement)},
+    copyTest: function () { navigator.clipboard.writeText('хуйжопа') }
   }
 }
 </script>

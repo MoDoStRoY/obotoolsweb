@@ -1,6 +1,6 @@
-let elements;
+//let elements;
 
-function refreshElements()
+/*function refreshElements()
 {
     elements = [document.getElementById("TTNumber"), document.getElementById("contact"),
         document.getElementById("SMS"), document.getElementById("Call"), document.getElementById("e-mail"),
@@ -10,93 +10,66 @@ function refreshElements()
         document.getElementById("correctionSum"), document.getElementById("CRM"), document.getElementById("WD"),
         document.getElementById("refusedCorrection"), document.getElementById("incorrectTicket"),
         document.getElementById("fullCorrectionCB"), document.getElementById("reparationCB")]
-}
+}*/
 
-export function changeSource(BCVariant)
+export function changeSource(vue, currentElement)
 {
-    refreshElements()
-
-    if (BCVariant === "CRM")
-        elements[13].checked = false;
+    if (currentElement === "CRM")
+        vue.WDCB = false;
     else
-        elements[12].checked = false
+        vue.CRMCB = false
 }
 
-export function changeBC(currentElement)
+export function changeBC(vue, currentElement)
 {
-    refreshElements()
+    disableBCCB(vue)
 
     switch (currentElement)
     {
         case "SMS":
-            SMS();
+            vue.SMSCB = true;
             break;
         case "Call":
-            Call();
+            vue.CallCB = true
             break;
-        case "e-mail":
-            email();
+        case "email":
+            vue.emailCB = true
             break;
         case "smm":
-            smm();
+            vue.smmCB = true
             break;
         case "XXX":
-            XXX();
+            vue.XXXCB = true
             break;
     }
 }
 
-function SMS()
+function disableBCCB(vue)
 {
-    for (let i = 3; i < 7; i++)
-    {
-        elements[i].checked = false;
-    }
+    vue.SMSCB = false
+    vue.CallCB = false
+    vue.emailCB = false
+    vue.smmCB = false
+    vue.XXXCB = false
 }
 
-function Call()
+export function getBCVariant(vue)
 {
-    for (let i = 2; i < 7; i++)
-    {
-        if (i != 3)
-            elements[i].checked = false;
-    }
+    if (vue.SMSCB)
+        return "SMS";
+    else if (vue.CallCB)
+        return "Звонок";
+    else if (vue.emailCB)
+        return "e-mail";
+    else if (vue.smmCB)
+        return "e-mail";
+    else if (vue.XXXCB)
+        return "XXX";
 }
 
-function email()
+export function getSource(vue)
 {
-    for (let i = 2; i < 7; i++)
-    {
-        if (i != 4)
-            elements[i].checked = false;
-    }
+    if (vue.CRMCB)
+        return "CRM";
+    else return "WD";
 }
-
-function smm()
-{
-    for (let i = 2; i < 7; i++)
-    {
-        if (i != 5)
-            elements[i].checked = false;
-    }
-}
-
-function XXX()
-{
-    for (let i = 2; i < 7; i++)
-    {
-        if (i != 6)
-            elements[i].checked = false;
-    }
-}
-
-/*export function getBCVariant(documentIN): any
-{
-    refreshElements(documentIN)
-
-    elements.forEach(element =>
-    {
-        if (element.checked === true) return element.name
-        else return "ХХХ"
-    })
-}*/

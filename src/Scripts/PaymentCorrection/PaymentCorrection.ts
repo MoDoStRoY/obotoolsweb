@@ -1,11 +1,11 @@
-//import {getBCVariant} from "./FrontLogic";
+import {getBCVariant, getSource} from "./FrontLogic";
 
-export async function sendRequest()
+export async function sendRequest(vue)
 {
-    let bodyOfRequest = [document.getElementById("TTNumber").value, document.getElementById("contact").value, "SMS",
+    let bodyOfRequest = [document.getElementById("TTNumber").value, document.getElementById("contact").value, getBCVariant(vue),
         document.getElementById("correctNumber").value, document.getElementById("incorrectNumber").value,
         document.getElementById("paymentSum").value, document.getElementById("paymentDate").value,
-        document.getElementById("correctionSum").value, "CRM", document.getElementById("refusedCorrection").checked.toString(),
+        document.getElementById("correctionSum").value, getSource(vue), document.getElementById("refusedCorrection").checked.toString(),
         document.getElementById("incorrectTicket").checked.toString(), document.getElementById("fullCorrectionCB").checked.toString(),
         document.getElementById("reparationCB").checked.toString()]
 
