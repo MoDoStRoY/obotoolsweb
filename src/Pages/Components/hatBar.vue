@@ -1,7 +1,5 @@
 <template>
-  <div id="hatBar">
-    <h1>OBO Tools WEB</h1>
-  </div>
+  <h1>OBO Tools WEB</h1>
 </template>
 
 <script>
@@ -12,6 +10,11 @@ export default
 </script>
 
 <style scoped>
+
+body
+{
+  height: 100vh;
+}
 
 h1
 {

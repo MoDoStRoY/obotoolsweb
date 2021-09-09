@@ -11,7 +11,7 @@
         <li><button disabled>Счётчик косяков</button>
         <li><button disabled>Рассчёт временных промежутков</button>
         <li><button disabled>Конвертация часовых поясов</button>
-        <li><button disabled>Чат</button></li>
+        <li><button v-on:click="openChat()">Чат</button></li>
       </ul>
     </section>
 
@@ -31,18 +31,14 @@
         * Данный интерфейс пока не прошёл согласование с руководством, поэтому использовать можно сугубо на свой страх и риск;<br>
         * Ознакомиться с исходным кодом (а также скопировать его и запилить что-то своё на основе) можно в репозитории на моём GitHub https://github.com/MoDoStRoY/OBO-Tools и https://github.com/MoDoStRoY/obotoolsweb</p>
 
-      <p>#Version 0.1.0</p>
+      <p>#Version 0.1.1</p>
 
       <p>Добавлено:<br>
-        + Кнопка для очистки всех полей;<br>
-        + Кнопка для очистки всех полей кроме даты;<br>
-        + Кнопка для очистки только буфера данных;<br>
-        + Загрузка данных в поля пачкой из буфера;</p>
+        + Чат;</p>
 
-      <p>Исправлено:<br>
-        - Некорректное заполнение полей решения и комментариев (через изменение DOM);<br>
-        - Заблокированы не функциональные кнопки в главном меню;<br>
-        - Некорректная обработка значений некоторых чек-боксов;</p>
+      <p>Баги:<br>
+        - Переход с главного меню в интерфейс корректировок сломан по непонятной причине. URL обновляется, но не страница;<br>
+        - Сломан CSS страницы чата;</p>
     </section>
 
   </div>
@@ -58,10 +54,12 @@ export default
   name: "workspace",
   components: {hatBar},
   methods: {
-    openPaymentCorrection: function openPaymentCorrection()
+    openPaymentCorrection: function ()
     {
-      window.location.href = 'http://94.181.44.86:25566/paymentCorrection';
-    }
+      //window.location.href = 'http://94.181.44.86:25566/paymentCorrection';
+      this.$router.push("/paymentCorrection")
+    },
+    openChat: function () { window.location.href = 'http://94.181.44.86:25566/chat'; }
   }
 }
 

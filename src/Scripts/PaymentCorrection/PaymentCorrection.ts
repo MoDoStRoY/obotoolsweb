@@ -14,8 +14,6 @@ export async function sendRequest(vue)
             body: JSON.stringify({"dataList": bodyOfRequest})
         });
 
-    //document = documentIN;
-
     getResult(JSON.parse(await response.text()), vue)
 }
 

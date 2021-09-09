@@ -11,6 +11,10 @@ module.exports = {
         paymentCorrection: {
             entry: 'src/Pages/WorkSpace/PaymentCorrection/main.js',
             title: 'OBO Tools'
+        },
+        chat: {
+            entry: 'src/Pages/WorkSpace/Chat/main.js',
+            title: 'OBO Tools'
         }
     },
 
