@@ -2,12 +2,9 @@ import {getBCVariant, getSource} from "./FrontLogic";
 
 export async function sendRequest(vue)
 {
-    let bodyOfRequest = [document.getElementById("TTNumber").value, document.getElementById("contact").value, getBCVariant(vue),
-        document.getElementById("correctNumber").value, document.getElementById("incorrectNumber").value,
-        document.getElementById("paymentSum").value, document.getElementById("paymentDate").value,
-        document.getElementById("correctionSum").value, getSource(vue), document.getElementById("refusedCorrection").checked.toString(),
-        document.getElementById("incorrectTicket").checked.toString(), document.getElementById("fullCorrectionCB").checked.toString(),
-        document.getElementById("reparationCB").checked.toString()]
+    let bodyOfRequest = [ vue.TTNumber, vue.contact, getBCVariant(vue), vue.correctNumber, vue.incorrectNumber,
+        vue.paymentSum, vue.paymentDate, vue.correctionSum, getSource(vue), vue.refusedCorrectionCB.toString(),
+        vue.incorrectTicketCB.toString(), vue.fullCorrectionCB.toString(), vue.reparationCB.toString()]
 
     let response = await fetch('http://94.181.44.86:25565/api/PaymentCorrection/getResults',
         {
@@ -19,12 +16,12 @@ export async function sendRequest(vue)
 
     //document = documentIN;
 
-    getResult(JSON.parse(await response.text()))
+    getResult(JSON.parse(await response.text()), vue)
 }
 
-function getResult(result)
+function getResult(result, vue)
 {
-    document.getElementById("decisionText").value = result[0];
-    document.getElementById("kassaCommentText").value = result[1];
-    document.getElementById("reparationCommentText").value = result[2];
+    vue.decision = result[0];
+    vue.kassaComment = result[1];
+    vue.reparationComment = result[2];
 }

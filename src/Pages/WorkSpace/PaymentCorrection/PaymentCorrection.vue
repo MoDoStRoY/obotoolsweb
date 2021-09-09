@@ -5,8 +5,8 @@
       <button v-on:click="goBack()">Назад</button>
       <br>
 
-      <button disabled>Сбросить кроме даты</button>
-      <button disabled>Сбросить всё</button>
+      <button v-on:click="clearDataWithoutDate()">Сбросить кроме даты</button>
+      <button v-on:click="clearAll()">Сбросить всё</button>
 
       <ul>
         <li><p>Источник заявки:</p>
@@ -15,13 +15,14 @@
       </ul>
 
       <ul>
-        <li><input type="checkbox" id="incorrectTicket">Решение на первой линии
-        <li><input type="checkbox" id="refusedCorrection">В корректировке отказано</li>
+        <li><input type="checkbox" v-model="incorrectTicketCB" id="incorrectTicket">Решение на первой линии
+        <li><input type="checkbox" v-model="refusedCorrectionCB" id="refusedCorrection">В корректировке отказано</li>
       </ul>
 
       <p>Импорт данных:</p>
       <textarea v-model="dataBuffer" id="dataBuffer"></textarea>
-      <button disabled v-on:click="loadDataBuffer()">Загрузка из буфера обмена</button>
+      <button v-on:click="loadDataBuffer()">Загрузить</button>
+      <button v-on:click="clearBuffer">Очистить буфер</button>
 
       <button disabled id="history">История</button>
 
@@ -57,8 +58,8 @@
 
         <ul id="correctionParams">
           <li><p>Параметры корректировки:</p><br>
-          <li><input type="checkbox" id="fullCorrectionCB">Корректировка в полном объёме
-          <li><input type="checkbox" id="reparationCB">Или предоставляется компенсация?
+          <li><input type="checkbox" v-model="fullCorrectionCB" id="fullCorrectionCB">Корректировка в полном объёме
+          <li><input type="checkbox" v-model="reparationCB" id="reparationCB">Или предоставляется компенсация?
           <li><br><p>Сумма корректировки (если частичная):</p>
           <li><input v-model="correctionSum" id="correctionSum"></li>
         </ul>
@@ -68,13 +69,13 @@
 
       <div id="centerBlockResults">
         <p id="decisionTitle">Решение:</p>
-        <textarea id="decisionText"></textarea>
+        <textarea v-model="decision" id="decisionText"></textarea>
         <button v-on:click="highlightText(decisionMark)" id="decisionCopyBtn">Выделить</button>
         <p id="kassaCommentTitle">Комментарий для кассы:</p>
-        <textarea id="kassaCommentText"></textarea>
+        <textarea v-model="kassaComment" id="kassaCommentText"></textarea>
         <button v-on:click="highlightText(kassaCommentMark)" id="kassCommentCopyBtn">Выделить</button>
         <p id="reparationCommentTitle">Комментарий для компенсации в CRM:</p>
-        <textarea id="reparationCommentText"></textarea>
+        <textarea v-model="reparationComment" id="reparationCommentText"></textarea>
         <button v-on:click="highlightText(reparationCommentMark)" id="reparationCommentCopyBtn">Выделить</button>
         <button disabled id="copyAllBtn">Скопировать всё</button>
       </div>
@@ -85,7 +86,15 @@
 <script>
 import hatBar from "@/Pages/Components/hatBar";
 import {sendRequest} from "@/Scripts/PaymentCorrection/PaymentCorrection.ts";
-import {changeBC, changeSource, highlightText} from "@/Scripts/PaymentCorrection/FrontLogic.ts";
+import {
+  changeBC,
+  changeSource,
+  highlightText,
+  loadDataBuffer,
+  clearDataWithoutDate,
+  clearAll,
+  clearBuffer
+} from "@/Scripts/PaymentCorrection/FrontLogic.ts";
 
 document.title = "OBO Tools"
 
@@ -110,6 +119,12 @@ export default {
       WDCB: false,
       CRM: "CRM",
       WD: "WD",
+
+      fullCorrectionCB: false,
+      reparationCB: false,
+
+      incorrectTicketCB: false,
+      refusedCorrectionCB: false,
 
       TTNumber: "",
       contact: "",
@@ -142,7 +157,10 @@ export default {
     chosenSource: function (currentElement) {changeSource(this, currentElement)},
     changeBC: function (currentElement) {changeBC(this, currentElement)},
     highlightText: function (textMark) {highlightText(this, textMark)},
-    loadDataBuffer: function () {  }
+    loadDataBuffer: function () { loadDataBuffer(this) },
+    clearDataWithoutDate: function () { clearDataWithoutDate(this) },
+    clearBuffer: function () { clearBuffer(this) },
+    clearAll: function () { clearAll(this) }
   }
 }
 </script>
@@ -159,6 +177,7 @@ export default {
 {
   float: left;
   width: 20%;
+  height: 100%;
 }
 
 #centerBlock
@@ -189,7 +208,7 @@ button
 #history
 {
   width: 90%;
-  margin-top: 99%;
+  margin-top: 80%;
 }
 
 #centerBlockHeader
@@ -223,7 +242,7 @@ button
 #dataBuffer
 {
   width: 90%;
-  height: 20%;
+  height: 30%;
   resize: none;
 }
 

@@ -1,5 +1,3 @@
-//let elements;
-
 /*function refreshElements()
 {
     elements = [document.getElementById("TTNumber"), document.getElementById("contact"),
@@ -90,7 +88,57 @@ export function highlightText(vue, textMark)
     }
 }
 
-/*export function loadDataBuffer(vue)
+export function loadDataBuffer(vue)
 {
+    let buffer = vue.dataBuffer.split("\n")
 
-}*/
+    vue.TTNumber = buffer[0]
+    vue.contact = buffer[1]
+    vue.incorrectNumber = buffer[2]
+    vue.correctNumber = buffer[3]
+    vue.paymentSum = buffer[4]
+    vue.paymentDate = buffer[5]
+    vue.correctionSum = buffer[6]
+}
+
+export function clearDataWithoutDate(vue)
+{
+    vue.TTNumber = ""
+    vue.contact = ""
+    vue.incorrectNumber = ""
+    vue.correctNumber = ""
+    vue.paymentSum = ""
+    vue.correctionSum = ""
+
+    vue.SMSCB = false
+    vue.CallCB = false
+    vue.emailCB = false
+    vue.smmCB = false
+    vue.XXXCB = false
+
+    vue.CRMCB = false
+    vue.WDCB = false
+
+    vue.fullCorrectionCB = false
+    vue.reparationCB = false
+
+    vue.incorrectTicketCB = false
+    vue.refusedCorrectionCB = false
+
+    vue.dataBuffer = ""
+
+    vue.decision = ""
+    vue.kassaComment = ""
+    vue.reparationComment = ""
+}
+
+export function clearBuffer(vue)
+{
+    vue.dataBuffer = ""
+}
+
+export function clearAll(vue)
+{
+    clearDataWithoutDate(vue)
+    vue.paymentDate = ""
+}
