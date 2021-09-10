@@ -1,20 +1,16 @@
 module.exports = {
     pages: {
         loginPage: {
-            entry: 'src/main.js',
-            title: 'OBO Tools'
+            entry: 'src/main.js'
         },
         workSpace: {
-            entry: 'src/Pages/WorkSpace/main.js',
-            title: 'OBO Tools'
+            entry: 'src/Pages/WorkSpace/main.js'
         },
         paymentCorrection: {
-            entry: 'src/Pages/WorkSpace/PaymentCorrection/main.js',
-            title: 'OBO Tools'
+            entry: 'src/Pages/WorkSpace/PaymentCorrection/main.js'
         },
         chat: {
-            entry: 'src/Pages/WorkSpace/Chat/main.js',
-            title: 'OBO Tools'
+            entry: 'src/Pages/WorkSpace/Chat/main.js'
         }
     },
 

@@ -8,5 +8,5 @@ Vue.use(VueRouter)
 
 new Vue({
     render: h => h(Chat),
-    router: getRouter()
+    router: getRouter(),
 }).$mount('#app')

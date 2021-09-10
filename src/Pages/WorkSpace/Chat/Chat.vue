@@ -8,7 +8,7 @@
     <div id="centerBlock">
       <textarea v-model="messagesBlock" id="messagesBlock"></textarea>
       <textarea v-model="message" id="message"></textarea>
-      <button v-on:click="sendMessage()" id="sendMessage"></button>
+      <button v-on:click="sendMessage()" id="sendMessage">Отправить сообщение</button>
     </div>
 
   </div>
@@ -16,7 +16,7 @@
 
 <script>
 import hatBar from "@/Pages/Components/hatBar";
-import {sendMessage} from "@/Scripts/Chat/Chat";
+import {checkUpdates, sendMessage} from "@/Scripts/Chat/Chat";
 
 document.title = "OBO Tools"
 
@@ -26,8 +26,8 @@ export default {
   data: function () {
     return {
       messagesBlock: "",
-      message: ""
-    };
+      message: "",
+    }
   },
   methods: {
     goBack: function ()
@@ -36,20 +36,44 @@ export default {
     },
     sendMessage: function ()
     {
-      document.body.offsetHeight = 100%
       sendMessage(this)
-    }
+    },
+    setUpdateTimer: function (timeoutSeconds)
+    {
+      setTimeout(() => {
+        this.updateByTimeout(timeoutSeconds);
+      }, timeoutSeconds * 1000, timeoutSeconds);
+    },
+    updateByTimeout: function (timeoutSeconds)
+    {
+      new Promise((resolve) => {
+        resolve(true);
+      }).finally(() => {
+        setTimeout(() => {
+          this.updateByTimeout(timeoutSeconds);
+        }, timeoutSeconds * 1000, timeoutSeconds);});
+      console.log("хуйжопа")
+      checkUpdates(this)
+    },
+  },
+  mounted()
+  {
+    this.setUpdateTimer(1)
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 #mainBlock
 {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
+
+</style>
+
+<style scoped>
 
 #leftBlock
 {
@@ -75,9 +99,14 @@ textarea
   height: 70%;
 }
 
-#sendMessage
+#message
 {
   height: 20%;
+}
+
+#sendMessage
+{
+  height: 10%;
 }
 
 button

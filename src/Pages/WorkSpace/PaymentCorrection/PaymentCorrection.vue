@@ -165,13 +165,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 #mainBlock
 {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
+
+</style>
+
+<style scoped>
 
 #leftBlock
 {
